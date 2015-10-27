@@ -1,0 +1,21 @@
+{
+	"keywords" : [
+		"wiremock",
+		"extension",
+		"codeception"
+	],
+	"autoload" : {
+		"psr-4" : {
+			"Codeception\\Extension\\" : "src"
+		}
+	},
+	"name" : "mcustiel/codeception-wiremock-extension",
+	"type" : "library",
+	"description" : "Wiremock extension for Codeception",
+	"license" : "GPL-3.0+",
+	"require" : {
+		"php" : ">=5.4",
+		"codeception/codeception" : "~2.1.0",
+		"wiremock-php/wiremock-php" : ">=1.43"
+	}
+}
