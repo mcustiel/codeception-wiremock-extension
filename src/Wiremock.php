@@ -1,7 +1,6 @@
 <?php
 namespace Codeception\Extension;
 
-use WireMock\Client\WireMock;
 class Wiremock extends \Codeception\Platform\Extension
 {
     const DEFAULT_LOGS_PATH = '/tmp/codeceptionWiremock/logs/';
@@ -15,9 +14,21 @@ class Wiremock extends \Codeception\Platform\Extension
      */
     private $server;
 
-    public function __construct($config, $options)
+    public function __construct($config, $options, WiremockDownloader $downloader = null, WiremockServer $server = null)
     {
         parent::__construct($config, $options);
+
+        if ($downloader === null) {
+            $this->downloader = new WiremockDownloader();
+        } else {
+            $this->downloader = $downloader;
+        }
+
+        if ($server === null) {
+            $this->server = new WiremockServer();
+        } else {
+            $this->server = $server;
+        }
 
         if (!empty($this->config['host'])) {
             $host = $this->config['host'];
@@ -29,7 +40,14 @@ class Wiremock extends \Codeception\Platform\Extension
             );
             $host = 'localhost';
         }
-        (new WiremockConnection())->setConnection(WireMock::create($host, $this->config['port']));
+        (new WiremockConnection())->setConnection(
+            \WireMock\Client\WireMock::create($host, $this->config['port'])
+        );
+    }
+
+    public function __destruct()
+    {
+        $this->server->stop($this->getJarPath(), $this->mapConfigToWiremockArguments($this->config));
     }
 
     private function getJarPath()

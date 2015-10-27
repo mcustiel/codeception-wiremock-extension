@@ -17,8 +17,8 @@ extensions:
         Codeception\Extension\Wiremock:
             download_version: 1.57
             root-dir: /tmp
-            port: 8080
-            https_port: 8443
+            port: 18080
+            https_port: 18443
             logs_path: /tmp
 modules:
     config:

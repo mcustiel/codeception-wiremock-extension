@@ -7,6 +7,9 @@ class WiremockDownloader
 
     public function downloadAndGetLocalJarPath($version)
     {
+        if (!is_dir(self::DESTINATION_PATH)) {
+            mkdir(self::DESTINATION_PATH, 0777, true);
+        }
         $filePath = self::DESTINATION_PATH . "wiremock-{$version}.jar";
         if (!file_exists($filePath)) {
             $this->downloadToPath($version, $filePath);
@@ -17,10 +20,10 @@ class WiremockDownloader
     private function buildUrlForVersion($version)
     {
         return "http://repo1.maven.org/maven2/com/github/tomakehurst/"
-            . "wiremock/{$version}/wiremock-{$version}.jar";
+            . "wiremock/{$version}/wiremock-{$version}-standalone.jar";
     }
 
-    private function downloadAndReturnFilePath($version, $filePath)
+    private function downloadToPath($version, $filePath)
     {
         $url = $this->buildUrlForVersion($version);
         file_put_contents(
