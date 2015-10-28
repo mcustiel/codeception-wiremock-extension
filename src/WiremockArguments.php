@@ -40,11 +40,22 @@ class WiremockArguments
 
         foreach ($config as $key => $value) {
             if (isset($this->map[$key])) {
-                $result .= " --{$key}" . ($this->map[$key]? " $value" : '');
+                $result .= $this->evaluateValueConfig($key, $this->map[$key], $value);
             }
         }
 
         return $result;
+    }
+
+    private function evaluateValueConfig($key, $withValue, $value)
+    {
+        if ($withValue) {
+            return " --{$key} {$value}";
+        }
+        if ($value) {
+            return " --{$key}";
+        }
+        return '';
     }
 
     public function sanitize(array $config)
