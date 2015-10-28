@@ -21,14 +21,17 @@ class WireMockServer
         }
         $logFile = rtrim($logsPath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . self::LOG_FILE_NAME;
         $descriptors = [
-            ['pipe', 'r'],
             ['file', $logFile, 'w'],
             ['file', $logFile, 'a'],
         ];
+        echo "Command - " . $this->getCommandPrefix() . "java -jar {$jarPath}{$arguments}";
         $this->process = proc_open(
             $this->getCommandPrefix() . "java -jar {$jarPath}{$arguments}",
             $descriptors,
-            $this->pipes
+            $this->pipes,
+            null,
+            null,
+            ['bypass_shell' => true]
         );
         $this->checkProcessIsRunning();
     }
@@ -42,13 +45,17 @@ class WireMockServer
 
     public function stop()
     {
-        if ($this->process !== null) {
+        if (is_resource($this->process)) {
             foreach ($this->pipes AS $pipe) {
                 if (is_resource($pipe)) {
+                    fflush($pipe);
                     fclose($pipe);
                 }
             }
-            proc_terminate($this->process, SIGINT);
+            proc_terminate($this->process, SIGKILL);
+            var_export(proc_get_status($this->process));
+            proc_close($this->process, SIGKILL);
+            unset($this->process);
         }
     }
 

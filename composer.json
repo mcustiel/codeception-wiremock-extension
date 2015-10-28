@@ -6,7 +6,7 @@
 	],
 	"autoload" : {
 		"psr-4" : {
-			"Codeception\\Extension\\" : "src"
+			"Codeception\\" : "src"
 		}
 	},
 	"name" : "mcustiel/codeception-wiremock-extension",

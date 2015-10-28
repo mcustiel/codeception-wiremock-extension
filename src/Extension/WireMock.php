@@ -1,7 +1,9 @@
 <?php
 namespace Codeception\Extension;
 
-class WireMock extends \Codeception\Platform\Extension
+use Codeception\Platform\Extension as CodeceptionExtension;
+
+class WireMock extends CodeceptionExtension
 {
     const DEFAULT_LOGS_PATH = '/tmp/codeceptionWireMock/logs/';
 
@@ -111,14 +113,14 @@ class WireMock extends \Codeception\Platform\Extension
 
     private function checkLogsPath($logsPath)
     {
-        if (! is_dir($logsPath) || ! is_writable($logsPath)) {
+        if (!is_dir($logsPath) || !is_writable($logsPath)) {
             throw \Exception("Directory $logsPath does not exist");
         }
     }
 
     private function checkJarExists($jar)
     {
-        if (! file_exists($jar)) {
+        if (!file_exists($jar)) {
             throw \Exception("File $jar does not exist");
         }
     }
