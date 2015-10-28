@@ -12,9 +12,9 @@ settings:
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
-        - Codeception\Extension\Wiremock
+        - Codeception\Extension\WireMock
     config:
-        Codeception\Extension\Wiremock:
+        Codeception\Extension\WireMock:
             download-version: 1.57
             root-dir: /tmp
             port: 18080

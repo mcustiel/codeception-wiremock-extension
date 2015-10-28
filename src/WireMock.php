@@ -1,38 +1,38 @@
 <?php
 namespace Codeception\Extension;
 
-class Wiremock extends \Codeception\Platform\Extension
+class WireMock extends \Codeception\Platform\Extension
 {
-    const DEFAULT_LOGS_PATH = '/tmp/codeceptionWiremock/logs/';
+    const DEFAULT_LOGS_PATH = '/tmp/codeceptionWireMock/logs/';
 
     /**
      *
-     * @var WiremockDownloader
+     * @var WireMockDownloader
      */
     private $downloader;
     /**
      *
-     * @var WiremockServer
+     * @var WireMockServer
      */
     private $server;
     /**
      *
-     * @var WiremockArguments
+     * @var WireMockArguments
      */
     private $argumentsManager;
 
     public function __construct(
         $config,
         $options,
-        WiremockDownloader $downloader = null,
-        WiremockServer $server = null,
-        WiremockArguments $argumentsManager = null
+        WireMockDownloader $downloader = null,
+        WireMockServer $server = null,
+        WireMockArguments $argumentsManager = null
     ) {
         parent::__construct($config, $options);
 
-        $this->initWiremockDownloader($downloader);
-        $this->initWiremockServer($server);
-        $this->initWiremockArgumentsManager($argumentsManager);
+        $this->initWireMockDownloader($downloader);
+        $this->initWireMockServer($server);
+        $this->initWireMockArgumentsManager($argumentsManager);
 
         $this->config = $this->argumentsManager->sanitize($this->config);
 
@@ -42,36 +42,36 @@ class Wiremock extends \Codeception\Platform\Extension
             $this->server->start(
                 $this->getJarPath(),
                 $this->getLogsPath(),
-                $this->mapConfigToWiremockArguments($this->config)
+                $this->mapConfigToWireMockArguments($this->config)
             );
             $host = 'localhost';
             sleep($this->config['start-delay']);
         }
-        WiremockConnection::setConnection(\WireMock\Client\WireMock::create($host, $this->config['port']));
+        WireMockConnection::setConnection(\WireMock\Client\WireMock::create($host, $this->config['port']));
     }
 
-    private function initWiremockServer($server)
+    private function initWireMockServer($server)
     {
         if ($server === null) {
-            $this->server = new WiremockServer();
+            $this->server = new WireMockServer();
         } else {
             $this->server = $server;
         }
     }
 
-    private function initWiremockDownloader($downloader)
+    private function initWireMockDownloader($downloader)
     {
         if ($downloader === null) {
-            $this->downloader = new WiremockDownloader();
+            $this->downloader = new WireMockDownloader();
         } else {
             $this->downloader = $downloader;
         }
     }
 
-    private function initWiremockArgumentsManager($argumentsManager)
+    private function initWireMockArgumentsManager($argumentsManager)
     {
         if ($argumentsManager === null) {
-            $this->argumentsManager = new WiremockArguments();
+            $this->argumentsManager = new WireMockArguments();
         } else {
             $this->argumentsManager = $argumentsManager;
         }
@@ -79,7 +79,7 @@ class Wiremock extends \Codeception\Platform\Extension
 
     public function __destruct()
     {
-        $this->server->stop($this->getJarPath(), $this->mapConfigToWiremockArguments($this->config));
+        $this->server->stop();
     }
 
     private function getJarPath()
@@ -123,7 +123,7 @@ class Wiremock extends \Codeception\Platform\Extension
         }
     }
 
-    private function mapConfigToWiremockArguments($config)
+    private function mapConfigToWireMockArguments($config)
     {
         return $this->argumentsManager->generateArgumentsString($config);
     }

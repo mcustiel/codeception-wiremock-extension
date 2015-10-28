@@ -1,9 +1,9 @@
 <?php
 namespace Codeception\Extension;
 
-class WiremockDownloader
+class WireMockDownloader
 {
-    const DESTINATION_PATH = '/tmp/codeceptionWiremock/jars/';
+    const DESTINATION_PATH = '/tmp/codeceptionWireMock/jars/';
 
     public function downloadAndGetLocalJarPath($version)
     {

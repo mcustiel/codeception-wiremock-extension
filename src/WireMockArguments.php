@@ -1,7 +1,7 @@
 <?php
 namespace Codeception\Extension;
 
-class WiremockArguments
+class WireMockArguments
 {
     private $map = [
         'root-dir' => true,

@@ -1,7 +1,7 @@
 <?php
 namespace Codeception\Extension;
 
-class WiremockConnection
+class WireMockConnection
 {
     /**
      * @var \WireMock\Client\WireMock
