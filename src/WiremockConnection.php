@@ -9,12 +9,12 @@ class WiremockConnection
     static private $connection;
 
 
-    public function setConnection($connection)
+    public static function setConnection($connection)
     {
         self::$connection = $connection;
     }
 
-    public function getConnection()
+    public static function get()
     {
         return self::$connection;
     }

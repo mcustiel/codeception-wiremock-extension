@@ -7,13 +7,11 @@ class WiremockServer
 
     public function start($jarPath, $logsPath, $arguments)
     {
-        $command = "(java -jar {$jarPath}"
-            . $this->getArgumentsForCommandLine($arguments)
-            . " | tee $logsPath/"
-            . self::LOG_FILE_NAME . " > /dev/null 2>&1 &)";
-        echo $command . PHP_EOL;
-        echo exec($command);
-        sleep(1);
+        $command = "java -jar {$jarPath}{$arguments}"
+            . " | tee $logsPath/" . self::LOG_FILE_NAME
+            . " > /dev/null 2>&1 &";
+        echo "Running wiremock..." . PHP_EOL;
+        exec($command);
     }
 
     public function stop($jarPath, $arguments)
@@ -28,24 +26,12 @@ class WiremockServer
 
     private function getRunningWiremockPid($jarPath, $arguments)
     {
-        $wiremockCommand = "java -jar {$jarPath}" . $this->getArgumentsForCommandLine($arguments);
+        $wiremockCommand = "java -jar {$jarPath}{$arguments}";
         $command = "ps -A -o pid,cmd | grep '$wiremockCommand' | grep -v grep |"
             . "sort -nr | head -n1 | awk '{print $1}'";
-        echo 'Running command ' . $command . PHP_EOL;
         $output = array();
-        $error = 0;
-        exec($command, $output, $error);
+        exec($command, $output);
 
         return trim(implode('', $output));
-    }
-
-
-    private function getArgumentsForCommandLine($arguments)
-    {
-        $argString = '';
-        foreach ($arguments as $argument => $value) {
-            $argString .= " $argument $value";
-        }
-        return $argString;
     }
 }

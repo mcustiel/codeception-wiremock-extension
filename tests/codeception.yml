@@ -15,11 +15,12 @@ extensions:
         - Codeception\Extension\Wiremock
     config:
         Codeception\Extension\Wiremock:
-            download_version: 1.57
+            download-version: 1.57
             root-dir: /tmp
             port: 18080
-            https_port: 18443
-            logs_path: /tmp
+            https-port: 18443
+            logs-path: /tmp
+            start-delay: 1
 modules:
     config:
         Db:

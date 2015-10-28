@@ -26,9 +26,11 @@ class WiremockDownloader
     private function downloadToPath($version, $filePath)
     {
         $url = $this->buildUrlForVersion($version);
-        file_put_contents(
+        if (!file_put_contents(
             $filePath,
             file_get_contents($url)
-        );
+        )) {
+            throw new \Exception('Could not download the specified version ' . $version);
+        };
     }
 }
