@@ -19,13 +19,13 @@ class WelcomeCest
 
     public function _after(\AcceptanceTester $I)
     {
-        $I->cleanAllPreviousRequests();
+        $I->cleanAllPreviousRequestsToWireMock();
     }
 
     // tests
     public function tryToTest(\AcceptanceTester $I)
     {
-        $I->expectRequest(
+        $I->expectRequestToWireMock(
             WireMock::get(WireMock::urlEqualTo('/some/url'))
             ->willReturn(WireMock::aResponse()
             ->withHeader('Content-Type', 'text/plain')
@@ -34,7 +34,7 @@ class WelcomeCest
 
         $response = file_get_contents('http://localhost:18080/some/url');
 
-        $I->receivedRequest(
+        $I->receivedRequestToWireMock(
             WireMock::getRequestedFor(WireMock::urlEqualTo('/some/url'))
         );
     }

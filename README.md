@@ -7,9 +7,9 @@ After the tests are finished it will close the connection and turn wiremock serv
 
 ## See also
 
-* WireMock PHP library: https://github.com/rowanhill/wiremock-php
-* Stubbing using WireMock: http://wiremock.org/stubbing.html
-* Verifying using WireMock: http://wiremock.org/verifying.html
+* [WireMock PHP library](https://github.com/rowanhill/wiremock-php)
+* [Stubbing using WireMock](http://wiremock.org/stubbing.html)
+* [Verifying using WireMock](http://wiremock.org/verifying.html)
 
 ## Installation
 
@@ -65,7 +65,6 @@ extensions:
     enabled:
         - Codeception\Extension\WireMock    
 ```
-
 
 #### Connect to a running WireMock instance
 
@@ -153,7 +152,8 @@ class YourCest extends \Codeception\TestCase\Test
     // Also, you can access wiremock-php library directly
     public function moreComplexTest()
     {
-        
+        $wiremockPhp = Codeception\Extension\WiremockConnection::get();
+        // Now you can use wiremock-php library
     }
 }
 ```
