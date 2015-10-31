@@ -31,9 +31,9 @@ class WelcomeCest
             ->withHeader('Content-Type', 'text/plain')
             ->withBody('Hello world!'))
         );
+
         $response = file_get_contents('http://localhost:18080/some/url');
-        //Debug::debug(var_export($this->wiremock, true));
-        Debug::debug(var_export($response, true));
+
         $I->receivedRequest(
             WireMock::getRequestedFor(WireMock::urlEqualTo('/some/url'))
         );

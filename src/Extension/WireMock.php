@@ -49,7 +49,7 @@ class WireMock extends CodeceptionExtension
 
         $this->config = $this->argumentsManager->sanitize($this->config);
 
-        if (! empty($this->config['host'])) {
+        if (!empty($this->config['host'])) {
             echo "Connecting to wiremock host {$this->config['host']}" . PHP_EOL;
             $host = $this->config['host'];
         } else {

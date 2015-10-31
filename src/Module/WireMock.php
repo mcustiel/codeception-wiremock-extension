@@ -24,7 +24,7 @@ class WireMock extends CodeceptionModule
         $this->wireMock = WireMockConnection::get();
     }
 
-    public function cleanAllPreviousRequests()
+    public function cleanAllPreviousRequestsToWireMock()
     {
         $this->wireMock->reset();
     }
@@ -32,7 +32,7 @@ class WireMock extends CodeceptionModule
     /**
      * @param \WireMock\Client\MappingBuilder $builder
      */
-    public function expectRequest(MappingBuilder $builder)
+    public function expectRequestToWireMock(MappingBuilder $builder)
     {
         $this->wireMock->stubFor($builder);
     }
@@ -41,7 +41,7 @@ class WireMock extends CodeceptionModule
      * @param \WireMock\Client\RequestPatternBuilder|integer $builderOrCount
      * @param \WireMock\Client\RequestPatternBuilder         $builder
      */
-    public function receivedRequest($builderOrCount, RequestPatternBuilder $builder = null)
+    public function receivedRequestToWireMock($builderOrCount, RequestPatternBuilder $builder = null)
     {
         $this->wireMock->verify($builderOrCount, $builder);
     }

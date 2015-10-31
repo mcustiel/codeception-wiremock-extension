@@ -95,7 +95,7 @@ class WireMockProcess
     public function stop()
     {
         if (is_resource($this->process)) {
-            foreach ($this->pipes AS $pipe) {
+            foreach ($this->pipes as $pipe) {
                 if (is_resource($pipe)) {
                     fflush($pipe);
                     fclose($pipe);
