@@ -24,7 +24,7 @@ class WireMock extends CodeceptionModule
         $this->wireMock = WireMockConnection::get();
     }
 
-    public function ensureThereAreNoRequests()
+    public function cleanAllPreviousRequests()
     {
         $this->wireMock->reset();
     }

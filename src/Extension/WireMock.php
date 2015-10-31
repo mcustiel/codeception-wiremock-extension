@@ -2,11 +2,13 @@
 namespace Codeception\Extension;
 
 use Codeception\Platform\Extension as CodeceptionExtension;
+use WireMock\Client\WireMock as WireMockClient;
 
+/**
+ * Codeception Extension for WireMock
+ */
 class WireMock extends CodeceptionExtension
 {
-    const DEFAULT_LOGS_PATH = '/tmp/codeceptionWireMock/logs/';
-
     /**
      *
      * @var WireMockDownloader
@@ -14,50 +16,61 @@ class WireMock extends CodeceptionExtension
     private $downloader;
     /**
      *
-     * @var WireMockServer
+     * @var WireMockProcess
      */
-    private $server;
+    private $process;
     /**
      *
      * @var WireMockArguments
      */
     private $argumentsManager;
 
+    /**
+     * Class constructor.
+     *
+     * @param array              $config
+     * @param array              $options
+     * @param WireMockDownloader $downloader       optional WireMockDownloader object
+     * @param WireMockProcess    $process          optional WireMockProcess object
+     * @param WireMockArguments  $argumentsManager optional WireMockArguments object
+     */
     public function __construct(
         $config,
         $options,
         WireMockDownloader $downloader = null,
-        WireMockServer $server = null,
+        WireMockProcess $process = null,
         WireMockArguments $argumentsManager = null
     ) {
         parent::__construct($config, $options);
 
         $this->initWireMockDownloader($downloader);
-        $this->initWireMockServer($server);
+        $this->initWireMockProcess($process);
         $this->initWireMockArgumentsManager($argumentsManager);
 
         $this->config = $this->argumentsManager->sanitize($this->config);
 
         if (! empty($this->config['host'])) {
+            echo "Connecting to wiremock host {$this->config['host']}" . PHP_EOL;
             $host = $this->config['host'];
         } else {
-            $this->server->start(
+            echo "Starting local wiremock" . PHP_EOL;
+            $this->process->start(
                 $this->getJarPath(),
-                $this->getLogsPath(),
+                $this->config['logs-path'],
                 $this->mapConfigToWireMockArguments($this->config)
             );
             $host = 'localhost';
             sleep($this->config['start-delay']);
         }
-        WireMockConnection::setConnection(\WireMock\Client\WireMock::create($host, $this->config['port']));
+        WireMockConnection::setConnection(WireMockClient::create($host, $this->config['port']));
     }
 
-    private function initWireMockServer($server)
+    private function initWireMockProcess($process)
     {
-        if ($server === null) {
-            $this->server = new WireMockServer();
+        if ($process === null) {
+            $this->process = new WireMockProcess();
         } else {
-            $this->server = $server;
+            $this->process = $process;
         }
     }
 
@@ -79,14 +92,20 @@ class WireMock extends CodeceptionExtension
         }
     }
 
+    /**
+     * Class destructor.
+     */
     public function __destruct()
     {
-        $this->server->stop();
+        if (WireMockConnection::get()->isAlive()) {
+            WireMockConnection::get()->shutdownServer();
+        }
+        $this->process->stop();
     }
 
     private function getJarPath()
     {
-        if (! empty($this->config['jar-path'])) {
+        if (!empty($this->config['jar-path'])) {
             $this->checkJarExists($this->config['jar-path']);
             $jarPath = $this->config['jar-path'];
         } elseif (!empty($this->config['download-version'])) {
@@ -95,27 +114,6 @@ class WireMock extends CodeceptionExtension
             throw new \Exception("Bad configuration");
         }
         return $jarPath;
-    }
-
-    private function getLogsPath()
-    {
-        if (! empty($this->config['logs-path'])) {
-            $logsPath = $this->config['logs-path'];
-            $this->checkLogsPath($logsPath);
-        } else {
-            $logsPath = self::DEFAULT_LOGS_PATH;
-            if (! is_dir($logsPath)) {
-                mkdir($logsPath, 0777, true);
-            }
-        }
-        return $logsPath;
-    }
-
-    private function checkLogsPath($logsPath)
-    {
-        if (!is_dir($logsPath) || !is_writable($logsPath)) {
-            throw \Exception("Directory $logsPath does not exist");
-        }
     }
 
     private function checkJarExists($jar)

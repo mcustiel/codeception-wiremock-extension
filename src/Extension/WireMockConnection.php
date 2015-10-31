@@ -3,13 +3,15 @@ namespace Codeception\Extension;
 
 use WireMock\Client\WireMock as WireMockClient;
 
+/**
+ * Stores the connection to a wiremock server.
+ */
 class WireMockConnection
 {
     /**
      * @var \WireMock\Client\WireMock
      */
     static private $connection;
-
 
     /**
      * @param \WireMock\Client\WireMock $connection

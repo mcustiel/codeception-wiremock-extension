@@ -14,11 +14,12 @@ class WelcomeCest
     public function _before(\AcceptanceTester $I)
     {
         // $this->wiremock = WiremockConnection::get();
-        $I->ensureThereAreNoRequests();
+
     }
 
     public function _after(\AcceptanceTester $I)
     {
+        $I->cleanAllPreviousRequests();
     }
 
     // tests
