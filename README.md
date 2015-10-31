@@ -20,7 +20,7 @@ This project is published in packagist, so you just need to add it as a dependen
 ```javascript
     "require": {
         // ...
-        "mcustiel/php-simple-request": "*"
+        "mcustiel/codeception-wiremock-extension": "*"
     }
 ```
 
@@ -31,7 +31,7 @@ If you want to access directly to this repo, adding this to your composer.json s
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/mcustiel/php-simple-request"
+            "url": "https://github.com/mcustiel/codeception-wiremock-extension"
         }
     ],
     "require": {
