@@ -35,7 +35,7 @@ If you want to access directly to this repo, adding this to your composer.json s
         }
     ],
     "require": {
-        "mcustiel/php-simple-request": "dev-master"
+        "mcustiel/codeception-wiremock-extension": "dev-master"
     }
 }
 ```

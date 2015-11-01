@@ -51,8 +51,8 @@ class WireMock extends CodeceptionExtension
      * @param WireMockArguments  $argumentsManager optional WireMockArguments object
      */
     public function __construct(
-        $config,
-        $options,
+        array $config,
+        array $options,
         WireMockDownloader $downloader = null,
         WireMockProcess $process = null,
         WireMockArguments $argumentsManager = null

@@ -11,3 +11,4 @@ modules:
             url: http://localhost/myapp
         - \Helper\Acceptance
         - WireMock
+        - Assert
