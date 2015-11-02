@@ -22,6 +22,7 @@ use Codeception\TestCase;
 use Codeception\Extension\WireMockConnection;
 use WireMock\Client\MappingBuilder;
 use WireMock\Client\RequestPatternBuilder;
+use Mcustiel\DependencyInjection\DependencyContainer;
 
 class WireMock extends CodeceptionModule
 {
@@ -37,7 +38,7 @@ class WireMock extends CodeceptionModule
     public function _before(TestCase $testCase)
     {
         parent::_before($testCase);
-        $this->wireMock = WireMockConnection::get();
+        $this->wireMock = DependencyContainer::getInstance()->get('wiremockConnection');
     }
 
     public function cleanAllPreviousRequestsToWireMock()

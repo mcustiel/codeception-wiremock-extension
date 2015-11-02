@@ -19,6 +19,7 @@ namespace Codeception\Extension;
 
 use Codeception\Platform\Extension as CodeceptionExtension;
 use WireMock\Client\WireMock as WireMockClient;
+use Mcustiel\DependencyInjection\DependencyContainer;
 
 /**
  * Codeception Extension for WireMock
@@ -78,7 +79,12 @@ class WireMock extends CodeceptionExtension
             $host = 'localhost';
             sleep($this->config['start-delay']);
         }
-        WireMockConnection::setConnection(WireMockClient::create($host, $this->config['port']));
+        DependencyContainer::getInstance()->add(
+            'wiremockConnection',
+            function() use ($host) {
+                return WireMockClient::create($host, $this->config['port']);
+            }
+        );
     }
 
     private function initWireMockProcess($process)
@@ -113,8 +119,9 @@ class WireMock extends CodeceptionExtension
      */
     public function __destruct()
     {
-        if (WireMockConnection::get()->isAlive()) {
-            WireMockConnection::get()->shutdownServer();
+        $connection = DependencyContainer::getInstance()->get('wiremockConnection');
+        if ($connection->isAlive()) {
+            $connection->shutdownServer();
         }
         $this->process->stop();
     }
