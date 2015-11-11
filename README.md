@@ -1,5 +1,4 @@
 # codeception-wiremock-extension
-
 This Codeception Extension allows developers and testers to use WireMock to mock external services when running codeception tests.
 
 codeception-wiremock-extension connects to an already running instance of WireMock or can also run automatically a local standalone one. And, it is able to download the version of wiremock you preffer and run it too.
