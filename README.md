@@ -10,6 +10,10 @@ After the tests are finished it will close the connection and turn wiremock serv
 * [Stubbing using WireMock](http://wiremock.org/stubbing.html)
 * [Verifying using WireMock](http://wiremock.org/verifying.html)
 
+## Note
+
+If you need an application with a functionality that is similar to the one offered by WireMock and is 100% PHP, please give Phiremock a try: [Phiremock](https://github.com/mcustiel/phiremock), it also has a nice [codeception extension](https://github.com/mcustiel/phiremock-codeception-extension). 
+
 ## Installation
 
 ### Composer:
@@ -44,19 +48,22 @@ Or just download the release and include it in your path.
 ## Configuration Examples
 
 ### Module
+The module allow you to connect to a WireMock instance, it can be the one ran by the extension or an already running one.
 
 ```yaml
 # acceptance.suite.yml
 modules:
     enabled:
-        - WireMock
+        - WireMock:
+            host: my.wiremock.host # defaults to 127.0.0.1
+            port: 80 # defaults to 8080
 ```
 
 ### Extension
 
 #### Default configuration 
 
-This configuration will download WireMock version 1.57 and run it on port 8080, writing logs to `/tmp/codeceptionWireMock/logs`
+This configuration will download WireMock version 1.57 and run it on port 8080, writing logs to codeception tests _output dir.
 
 ```yaml
 # codeception.yml

@@ -19,7 +19,6 @@ namespace Codeception\Extension;
 
 use Codeception\Platform\Extension as CodeceptionExtension;
 use WireMock\Client\WireMock as WireMockClient;
-use Mcustiel\DependencyInjection\DependencyContainer;
 
 /**
  * Codeception Extension for WireMock
@@ -66,25 +65,13 @@ class WireMock extends CodeceptionExtension
 
         $this->config = $this->argumentsManager->sanitize($this->config);
 
-        if (!empty($this->config['host'])) {
-            echo "Connecting to wiremock host {$this->config['host']}" . PHP_EOL;
-            $host = $this->config['host'];
-        } else {
-            echo "Starting local wiremock" . PHP_EOL;
-            $this->process->start(
-                $this->getJarPath(),
-                $this->config['logs-path'],
-                $this->mapConfigToWireMockArguments($this->config)
-            );
-            $host = 'localhost';
-            sleep($this->config['start-delay']);
-        }
-        DependencyContainer::getInstance()->add(
-            'wiremockConnection',
-            function() use ($host) {
-                return WireMockClient::create($host, $this->config['port']);
-            }
+        echo "Starting local wiremock" . PHP_EOL;
+        $this->process->start(
+            $this->getJarPath(),
+            $this->config['logs-path'],
+            $this->mapConfigToWireMockArguments($this->config)
         );
+        sleep($this->config['start-delay']);
     }
 
     private function initWireMockProcess($process)
@@ -119,7 +106,7 @@ class WireMock extends CodeceptionExtension
      */
     public function __destruct()
     {
-        $connection = DependencyContainer::getInstance()->get('wiremockConnection');
+        $connection = WireMockClient::create('localhost', $this->config['port']);
         if ($connection->isAlive()) {
             $connection->shutdownServer();
         }

@@ -17,6 +17,8 @@
  */
 namespace Codeception\Extension;
 
+use Codeception\Configuration as Config;
+
 /**
  * Utility class to work with config parameters and wiremock command line arguments.
  */
@@ -66,9 +68,7 @@ class WireMockArguments
      */
     public function __construct()
     {
-        $this->defaults['logs-path'] = sys_get_temp_dir()
-            . DIRECTORY_SEPARATOR . 'codeceptionWireMock'
-            . DIRECTORY_SEPARATOR . 'logs';
+        $this->defaults['logs-path'] = Config::logDir();
     }
 
     /**

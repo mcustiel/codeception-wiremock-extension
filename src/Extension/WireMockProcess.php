@@ -51,6 +51,8 @@ class WireMockProcess
     {
         $this->checkIfProcessIsRunning();
 
+        echo "Running " . $this->getCommandPrefix() . "java -jar {$jarPath}{$arguments}";
+
         $this->process = proc_open(
             $this->getCommandPrefix() . "java -jar {$jarPath}{$arguments}",
             $this->createProcessDescriptors($logsPath),
@@ -71,6 +73,7 @@ class WireMockProcess
     {
         $logFile = $logsPath . DIRECTORY_SEPARATOR . self::LOG_FILE_NAME;
         $descriptors = [
+            ['pipe', 'r'],
             ['file', $logFile, 'w'],
             ['file', $logFile, 'a'],
         ];
@@ -128,8 +131,8 @@ class WireMockProcess
     private function getCommandPrefix()
     {
         if (PHP_OS == 'WIN32' || PHP_OS == 'WINNT' || PHP_OS == 'Windows') {
-            return 'exec ';
+            return '';
         }
-        return '';
+        return 'exec ';
     }
 }

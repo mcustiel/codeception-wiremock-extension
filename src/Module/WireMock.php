@@ -19,10 +19,10 @@ namespace Codeception\Module;
 
 use Codeception\Module as CodeceptionModule;
 use Codeception\TestCase;
-use Codeception\Extension\WireMockConnection;
+use Codeception\Util\Debug;
+use WireMock\Client\WireMock as WireMockClient;
 use WireMock\Client\MappingBuilder;
 use WireMock\Client\RequestPatternBuilder;
-use Mcustiel\DependencyInjection\DependencyContainer;
 
 class WireMock extends CodeceptionModule
 {
@@ -31,14 +31,22 @@ class WireMock extends CodeceptionModule
      */
     private $wireMock;
 
+    protected $config = [
+        'host' => 'localhost',
+        'port' => '8080'
+    ];
+
     /**
      * {@inheritDoc}
-     * @see \Codeception\Module::_before()
+     * @see \Codeception\Module::_beforeSuite()
      */
-    public function _before(TestCase $testCase)
+    public function _beforeSuite($settings = [])
     {
-        parent::_before($testCase);
-        $this->wireMock = DependencyContainer::getInstance()->get('wiremockConnection');
+        $this->config = array_merge($this->config, $settings);
+        Debug::debug(
+            "Connecting to WireMock in: host {$this->config['host']} and port {$this->config['port']}"
+        );
+        $this->wireMock = WireMockClient::create($this->config['host'], $this->config['port']);
     }
 
     public function cleanAllPreviousRequestsToWireMock()
