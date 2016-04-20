@@ -25,7 +25,7 @@
 	"license" : "GPL-3.0+",
 	"require" : {
 		"php" : ">=5.4",
-		"codeception/codeception" : "^2.1.0",
+		"codeception/codeception" : "^2.0.0",
 		"wiremock-php/wiremock-php" : "^1.43"
 	},
 	"require-dev" : {
