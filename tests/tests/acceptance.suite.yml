@@ -7,10 +7,13 @@
 class_name: AcceptanceTester
 modules:
     enabled:
-        - PhpBrowser:
-            url: http://localhost/myapp
+        - PhpBrowser
         - \Helper\Acceptance
-        - WireMock:
+        - WireMock
+        - Asserts
+    config:
+        PhpBrowser:
+            url: http://localhost/myapp
+        WireMock:
             host: localhost
             port: 18080
-        - Asserts

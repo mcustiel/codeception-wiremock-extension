@@ -70,13 +70,4 @@ class WireMock extends CodeceptionModule
     {
         $this->wireMock->verify($builderOrCount, $builder);
     }
-
-    /**
-     * {@inheritDoc}
-     * @see \Codeception\Module::_after()
-     */
-    public function _after(TestCase $testCase)
-    {
-        parent::_after($testCase);
-    }
 }

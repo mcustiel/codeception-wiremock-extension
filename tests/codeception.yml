@@ -21,10 +21,3 @@ extensions:
             https-port: 18443
             logs-path: /tmp
             start-delay: 1
-modules:
-    config:
-        Db:
-            dsn: ''
-            user: ''
-            password: ''
-            dump: tests/_data/dump.sql
