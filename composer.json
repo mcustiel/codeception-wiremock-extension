@@ -29,6 +29,8 @@
 		"wiremock-php/wiremock-php" : "^1.43"
 	},
 	"require-dev" : {
+		"codeception/codeception" : "^2.1",
+		"guzzlehttp/guzzle" : ">=4.0 <7.0",
 		"phing/phing" : "^2.12.0",
 		"squizlabs/php_codesniffer" : "^2.3.4",
 		"phpmd/phpmd" : "^2.3.2",
