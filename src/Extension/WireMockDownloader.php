@@ -53,7 +53,7 @@ class WireMockDownloader
      */
     private function buildUrlForVersion($version)
     {
-        return "http://repo1.maven.org/maven2/com/github/tomakehurst/"
+        return "https://repo1.maven.org/maven2/com/github/tomakehurst/"
             . "wiremock/{$version}/wiremock-{$version}-standalone.jar";
     }
 
