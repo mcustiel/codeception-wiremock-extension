@@ -18,10 +18,14 @@ If you need an application with a functionality that is similar to the one offer
 
 ### Composer:
 
+From console:
+
+`composer require --dev mcustiel/codeception-wiremock-extension`
+
 This project is published in packagist, so you just need to add it as a dependency in your composer.json:
 
 ```javascript
-    "require": {
+    "require-dev": {
         // ...
         "mcustiel/codeception-wiremock-extension": "*"
     }
@@ -37,7 +41,7 @@ If you want to access directly to this repo, adding this to your composer.json s
             "url": "https://github.com/mcustiel/codeception-wiremock-extension"
         }
     ],
-    "require": {
+    "require-dev": {
         "mcustiel/codeception-wiremock-extension": "dev-master"
     }
 }
